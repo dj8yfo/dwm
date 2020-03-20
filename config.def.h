@@ -7,6 +7,8 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
+static const char col_white[]       = "#ffffff";
+static const char col_black[]       = "#000000";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -15,8 +17,8 @@ static const char col_magenta[]        = "#ff00ff";
 static const char col_cyan[]        = "#006666";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_cyan },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_magenta  },
+	[SchemeNorm] = { col_white, col_gray2, col_cyan },
+	[SchemeSel]  = { col_white, col_black,  col_magenta  },
 };
 
 /* tagging */
