@@ -1546,7 +1546,7 @@ setmfact(const Arg *arg)
 	if (!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
 	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
-	if (f < 0.1 || f > 0.9)
+	if (f < 0.1 || f > 1.04)
 		return;
 	selmon->mfact = f;
 	arrange(selmon);
@@ -2244,8 +2244,10 @@ centeredfloatingmaster(Monitor *m)
 	if (n > m->nmaster) {
 		/* go mfact box in the center if more than nmaster clients */
 		if (m->ww > m->wh) {
+
+                        float prp = m->mfact > 0.9 ? m->mfact : 0.9;
 			mw = m->nmaster ? m->ww * m->mfact : 0;
-			mh = m->nmaster ? m->wh * 0.9 : 0;
+			mh = m->nmaster ? m->wh * prp : 0;
 		} else {
 			mh = m->nmaster ? m->wh * m->mfact : 0;
 			mw = m->nmaster ? m->ww * 0.9 : 0;
