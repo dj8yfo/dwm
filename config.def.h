@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -14,12 +14,12 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_magenta[]        = "#ff00ff";
+static const char col_green[]        = "#00ff00";
 static const char col_cyan[]        = "#006666";
 static const char *colors[][3]      = {
         /*               fg         bg         border   */
         [SchemeNorm] = { col_white, col_gray2, col_cyan },
-        [SchemeSel]  = { col_white, col_black,  col_gray4  },
+        [SchemeSel]  = { col_white, col_black,  col_green  },
 };
 
 /* tagging */
@@ -39,6 +39,7 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int decorhints  = 1;    /* 1 means respect decoration hints */
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
@@ -46,10 +47,8 @@ static const Layout layouts[] = {
         { "[]=",      tile },    /* first entry is default */
         { "><>",      NULL },    /* no layout function means floating behavior */
         { "[M]",      monocle },
-        { "|M|",      centeredmaster },
-        { ">M>",      centeredfloatingmaster },
-        { "[@]",      spiral },
-        { "[\\]",      dwindle },
+        { "TTT",      bstack },
+        { "===",      bstackhoriz },
 };
 
 /* key definitions */
@@ -68,6 +67,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *surfrawcmd[]  = { "/bin/bash", "/usr/local/bin/menu-surfraw", NULL};
+static const char *flameshot[]  = { "flameshot", "gui", NULL };
+
+#include "movestack.c"
 
 static Key keys[] = {
         /* modifier                     key        function        argument */
@@ -81,6 +83,8 @@ static Key keys[] = {
         { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
         { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
         { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+        { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
+        { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
         { MODKEY,                       XK_n, zoom,                {0} },
         { MODKEY,                       XK_Tab,    view,           {0} },
         { MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
@@ -88,11 +92,10 @@ static Key keys[] = {
         { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
         { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
         { MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
-        { MODKEY,                       XK_o,      setlayout,      {.v = &layouts[4]} },
-        { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[5]} },
-        { MODKEY,                       XK_w,      setlayout,      {.v = &layouts[6]} },
+        { MODKEY,                       XK_o,      spawn,          {.v = flameshot } },
         { MODKEY,                       XK_space,  setlayout,      {0} },
         { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+        { MODKEY,                       XK_s,      togglesticky,   {0} },
         { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
         { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
         { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -127,4 +130,3 @@ static Button buttons[] = {
         { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
         { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
