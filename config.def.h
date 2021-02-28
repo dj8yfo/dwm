@@ -16,11 +16,15 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_green[]        = "#00ff00";
 static const char col_cyan[]        = "#006666";
-static const char *colors[][3]      = {
+
+static const char normmarkcolor[]   = "#ffff00";	/*border color for marked client*/
+static const char selmarkcolor[]    = "#ff00ff";	/*border color for marked client on focus*/
+
+static const char *colors[][4]      = {
         /*               fg         bg         border   */
-        [SchemeNorm] = { col_white, col_gray2, col_cyan },
-        [SchemeSel]  = { col_white, col_black,  col_green  },
-        [SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2, normmarkcolor },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan,  selmarkcolor  },
+        [SchemeHid]  = { col_cyan,  col_gray1, col_green  },
 };
 
 /* tagging */
@@ -116,6 +120,10 @@ static Key keys[] = {
                 TAGKEYS(                        XK_7,                      6)
                 TAGKEYS(                        XK_8,                      7)
                 TAGKEYS(                        XK_9,                      8)
+
+    { MODKEY,                       XK_semicolon, togglemark,   {0} },
+    { MODKEY,                       XK_y,      swapfocus,      {0} },
+    { MODKEY,                       XK_e,      swapclient,     {0} },
                 { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
