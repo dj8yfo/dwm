@@ -23,8 +23,8 @@ static const char selmarkcolor[]    = "#ff00ff";	/*border color for marked clien
 static const char *colors[][4]      = {
         /*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2, normmarkcolor },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan,  selmarkcolor  },
-        [SchemeHid]  = { col_cyan,  col_gray1, col_green  },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_green,  selmarkcolor  },
+        [SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
 };
 
 /* tagging */
@@ -44,7 +44,6 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int decorhints  = 1;    /* 1 means respect decoration hints */
 
 #include "fibonacci.c"
 static const Layout layouts[] = {
